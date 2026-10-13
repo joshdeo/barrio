@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Build a Party Tray | Barrio Kitchen &amp; Cafe</title>
+<meta name="description" content="Build your Barrio Kitchen & Cafe party tray order, see your total as you go, and send it by email or phone.">
+<meta name="theme-color" content="#1B100A">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body data-page="trays">
+
+<section class="phead" style="min-height:52vh">
+  <div class="layer ghost-word" data-speed=".16" style="top:64%" aria-hidden="true">TRAYS</div>
+  <div class="layer" data-speed=".3" style="right:12%;top:24%" aria-hidden="true"><div id="b1"></div></div>
+  <div class="layer" data-speed=".5" style="right:30%;bottom:20%" aria-hidden="true"><div id="b2"></div></div>
+  <span class="eyebrow rv in">Tray Builder</span>
+  <h1 data-chars style="--d:.4s">Build your <em>tray.</em></h1>
+  <p class="rv in" style="--d:.9s">Add dishes, pick a size, watch the total move. Send it over when it looks right.</p>
+</section>
+
+<div class="wrap builder">
+  <div id="list"></div>
+
+  <aside class="summary" id="sum" aria-label="Your order">
+    <div class="grip" id="grip"><div><h3 style="font-size:1.4rem;margin:0">Your order</h3><span class="fine" style="margin:0" id="gcount">Nothing yet</span></div><b class="serif" style="font-size:2rem;color:var(--copper-hi)" id="gtotal">$0</b></div>
+    <form id="oform" class="oform" name="tray-order" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="tray-order">
+      <p style="position:absolute;left:-9999px" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+      <input type="hidden" name="order" id="f-order"><input type="hidden" name="total" id="f-total">
+      <h3 class="d">Your order</h3>
+      <div class="lines" id="lines"></div>
+      <div class="total"><span>Estimated total</span><b id="total">$0.00</b></div>
+      <p class="fine">Estimate before tax. We confirm your final order and price by phone or email. Please order at least 2 to 3 days in advance.</p>
+      <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name" required></div>
+      <div class="field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"></div>
+      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" inputmode="email"></div>
+      <div class="field"><label for="f-date">Pickup or event date</label><input id="f-date" name="date" type="date"></div>
+      <div class="field"><label for="f-note">Notes</label><textarea id="f-note" name="notes" rows="2" placeholder="Allergies, headcount, delivery questions"></textarea></div>
+      <p class="ferr" id="ferr" role="alert" hidden></p>
+      <button class="btn solid" type="submit" id="submit">Send my order</button>
+      <div class="mini"><button class="btn ghost" type="button" id="copy">Copy order</button><a class="btn ghost" href="tel:+19055920079">Call</a><button class="btn ghost" type="button" id="clear">Clear</button></div>
+      <a class="alt-link" id="mail" href="#">Prefer email? Open it in your email app</a>
+    </form>
+    <div class="thanks" id="thanks" hidden>
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="20"/><path d="m14 25 7 7 14-16"/></svg>
+      <h3 class="serif" style="color:var(--cream)">Order sent.</h3>
+      <p>Thank you. We will confirm your order and final price by phone or email.</p>
+      <button class="btn ghost" type="button" id="again" style="width:100%;justify-content:center">Start another tray</button>
+    </div>
+  </aside>
+</div>
+
+<div class="toast" id="toast"></div>
+<div data-footer></div>
+
+<script src="js/menu-data.js"></script>
+<script src="js/forms.js"></script>
+<script src="js/site.js"></script>
+<script>
+(function(){
+  var B=BARRIO,U=BarrioUI,KEY="barrio-tray-v1";
+  document.getElementById("b1").innerHTML=U.bean("--s:60px;--o:.55;--r:-20deg");
+  document.getElementById("b2").innerHTML=U.bean("--s:34px;--o:.45;--r:30deg;--d:-2s");
+  var state={};try{state=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+  function money(v){return "$"+v.toFixed(2)}
+  var byId={};B.items.forEach(function(x){byId[x.id]=x});
+
+  var list=document.getElementById("list");
+  list.innerHTML=B.cats.map(function(c){
+    var rows=B.items.filter(function(x){return x.cat===c.id}).map(function(x){
+      var ctl="";
+      if(x.m){
+        ctl="<div class='seg' data-seg='"+x.id+"'><button data-s='m'>M<span>$"+x.m+"</span></button><button data-s='l'>L<span>$"+x.l+"</span></button></div>";
+      }
+      var sub=x.m?(x.note||""):(money(x.each)+(x.unit==="pair"?" per pair":x.unit==="each"?" each":"")+(x.min?", "+x.min+" pieces minimum":""));
+      if(x.mLabel)sub="M is "+x.mLabel+", L is "+x.lLabel;
+      return "<div class='brow rv' data-id='"+x.id+"'><div><h4>"+x.name+"</h4>"+(sub?"<small>"+sub+"</small>":"")+"</div>"+ctl+"<div class='step-ctl'><button data-d='-1' aria-label='Remove one'>&minus;</button><output>0</output><button data-d='1' aria-label='Add one'>+</button></div></div>";
+    }).join("");
+    return "<section class='bcat' id='"+c.id+"'><h2 class='rv'>"+c.name+"<small>"+c.blurb+"</small></h2>"+rows+"</section>";
+  }).join("");
+  BarrioWatch(list);
+
+  function stepFor(x,q,dir){
+    if(x.m)return q+dir;
+    if(x.min){ if(dir>0)return q?q+10:x.min; return q>x.min?q-10:0 }
+    return q+dir;
+  }
+  function lineTotal(x,s){ if(x.m)return (s.size==="l"?x.l:x.m)*s.qty; return x.each*s.qty }
+
+  function render(){
+    var lines="",total=0,count=0;
+    list.querySelectorAll(".brow").forEach(function(r){
+      var id=r.dataset.id,x=byId[id],s=state[id],q=s?s.qty:0;
+      r.classList.toggle("has",q>0);
+      r.querySelector("output").textContent=q;
+      var seg=r.querySelector(".seg");
+      if(seg)seg.querySelectorAll("button").forEach(function(b){b.classList.toggle("on",!!s&&s.size===b.dataset.s)});
+    });
+    Object.keys(state).forEach(function(id){
+      var s=state[id],x=byId[id];if(!x||!s.qty)return;
+      var t=lineTotal(x,s);total+=t;count++;
+      var label=x.m?(s.qty+" x "+(s.size==="l"?"Large":"Medium")+" tray"+(s.qty>1?"s":"")):(s.qty+(x.unit==="pair"?" pair"+(s.qty>1?"s":""):x.unit==="each"?" pieces":""));
+      lines+="<div class='line'><span>"+x.name+"<small>"+label+"</small></span><b>"+money(t)+"</b></div>";
+    });
+    document.getElementById("lines").innerHTML=lines||"<div class='empty'>Add a dish to start your tray.</div>";
+    document.getElementById("total").textContent=money(total);
+    document.getElementById("gtotal").textContent="$"+(Number.isInteger(total)?total:total.toFixed(2));
+    document.getElementById("gcount").textContent=count?count+" item"+(count>1?"s":"")+" in your tray":"Nothing yet";
+    updateMail(total);
+  }
+  function orderText(){
+    var out=[],total=0;
+    Object.keys(state).forEach(function(id){
+      var s=state[id],x=byId[id];if(!x||!s.qty)return;
+      var t=lineTotal(x,s);total+=t;
+      var label=x.m?s.qty+" x "+x.name+" ("+(s.size==="l"?"Large":"Medium")+")":s.qty+" "+(x.unit==="pair"?"pair(s) of ":x.unit==="each"?"pcs ":"x ")+x.name;
+      out.push(label+": "+money(t));
+    });
+    var g=function(i){return document.getElementById(i).value.trim()};
+    var head=["Hi Barrio, I would like to place a party tray order.",""];
+    if(g("f-name"))head.push("Name: "+g("f-name"));
+    if(g("f-phone"))head.push("Phone: "+g("f-phone"));
+    if(g("f-email"))head.push("Email: "+g("f-email"));
+    if(g("f-date"))head.push("Pickup or event date: "+g("f-date"));
+    head.push("");
+    var tail=["","Estimated total before tax: "+money(total)];
+    if(g("f-note"))tail.push("","Notes: "+g("f-note"));
+    return head.concat(out,tail).join("\n");
+  }
+  function updateMail(){
+    var m=document.getElementById("mail");
+    m.href="mailto:"+B.contact.email+"?subject="+encodeURIComponent("Party tray order")+"&body="+encodeURIComponent(orderText());
+  }
+  list.addEventListener("click",function(e){
+    var row=e.target.closest(".brow");if(!row)return;
+    var id=row.dataset.id,x=byId[id],s=state[id]||(state[id]={size:"m",qty:0});
+    var sb=e.target.closest(".seg button"),db=e.target.closest(".step-ctl button");
+    if(sb){s.size=sb.dataset.s;if(!s.qty)s.qty=1}
+    if(db){s.qty=Math.max(0,stepFor(x,s.qty,parseInt(db.dataset.d)));var o=row.querySelector(".step-ctl");o.classList.remove("pop");void o.offsetWidth;o.classList.add("pop")}
+    if(!s.qty)delete state[id];
+    save();render();
+  });
+  ["f-name","f-phone","f-email","f-date","f-note"].forEach(function(i){document.getElementById(i).addEventListener("input",function(){updateMail()})});
+  var d=new Date();d.setDate(d.getDate()+3);document.getElementById("f-date").min=d.toISOString().slice(0,10);
+  var toast=document.getElementById("toast");
+  function say(t){toast.textContent=t;toast.classList.add("show");setTimeout(function(){toast.classList.remove("show")},2200)}
+  document.getElementById("copy").addEventListener("click",function(){
+    var t=orderText();
+    (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){say("Order copied")},function(){say("Copy not available here")});
+  });
+  document.getElementById("clear").addEventListener("click",function(){state={};save();render();say("Tray cleared")});
+  document.getElementById("grip").addEventListener("click",function(){document.getElementById("sum").classList.toggle("open")});
+  var form=document.getElementById("oform"),err=document.getElementById("ferr"),sbtn=document.getElementById("submit"),F=BarrioForms;
+  function fail(t,mail){err.hidden=false;err.innerHTML=t+(mail?' You can also <a href="'+mail+'">send it from your email app</a>.':"")}
+  function totalNow(){var t=0;Object.keys(state).forEach(function(id){var s=state[id];if(s&&s.qty&&byId[id])t+=lineTotal(byId[id],s)});return t}
+  form.addEventListener("submit",function(e){
+    e.preventDefault();err.hidden=true;
+    var g=function(i){return document.getElementById(i).value.trim()};
+    if(!Object.keys(state).length)return fail("Add at least one dish to your tray first.");
+    if(!g("f-name"))return fail("Please add your name.");
+    var em=g("f-email"),ph=g("f-phone");
+    if(!ph&&!em)return fail("Please add a phone number or email so we can confirm your order.");
+    if(em&&!F.validEmail(em))return fail("That email address does not look right.");
+    if(form.elements["bot-field"].value)return finish();
+    var text=orderText();
+    document.getElementById("f-order").value=text;document.getElementById("f-total").value=money(totalNow());
+    var data={name:g("f-name"),phone:ph,email:em,date:g("f-date"),notes:g("f-note"),order:text,total:money(totalNow())};
+    sbtn.disabled=true;sbtn.textContent="Sending";
+    F.send("tray-order",data).then(finish,function(){
+      sbtn.disabled=false;sbtn.textContent="Send my order";
+      fail("We could not send that from here. Please try again or call "+B.contact.phone+".",F.mailto("Party tray order",text));
+    });
+  });
+  function finish(){state={};save();render();form.hidden=true;document.getElementById("thanks").hidden=false;sbtn.disabled=false;sbtn.textContent="Send my order"}
+  document.getElementById("again").addEventListener("click",function(){document.getElementById("thanks").hidden=true;form.hidden=false;form.reset();render()});
+  render();
+})();
+</script>
+</body>
+</html>

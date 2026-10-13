@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Our Story | Barrio Kitchen &amp; Cafe</title>
+<meta name="description" content="Barrio Kitchen & Cafe is a Filipino kitchen and cafe on Dundas Street East in Mississauga, built around party trays for every table.">
+<meta name="theme-color" content="#1B100A">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body data-page="story">
+
+<section class="phead">
+  <div class="layer ghost-word" data-speed=".16" style="top:62%" aria-hidden="true">STORY</div>
+  <div class="layer" data-speed=".32" style="right:11%;top:20%" aria-hidden="true"><div id="b1"></div></div>
+  <div class="layer" data-speed=".5" style="right:30%;bottom:20%" aria-hidden="true"><div id="b2"></div></div>
+  <span class="eyebrow rv in">Our Story</span>
+  <h1 data-chars style="--d:.4s">A table big enough <em>for the block.</em></h1>
+  <p class="rv in" style="--d:.9s">Barrio is a Filipino kitchen and cafe in Mississauga, built around the trays that make a gathering a gathering.</p>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <p class="pull" data-lines>A <em>barrio</em> is a neighbourhood.<br>This is the kitchen<br>that feeds it.</p>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="story-vis rv left"><div class="in-layer" data-speed=".12"><div id="v1" style="width:100%;display:grid;place-items:center"></div></div></div>
+      <div class="story-copy">
+        <span class="eyebrow rv">The Kitchen</span>
+        <h2 class="title-lg" data-lines style="margin-top:20px">Dishes people<br>ask for by name.</h2>
+        <p class="rv">Pancit for long life. Adobo that disappears first. Kare kare, sisig, lechon kawali, palabok, and a dessert list that runs from turon to biko. The party tray menu covers the dishes every celebration seems to need.</p>
+        <p class="rv">On Dundas Street East in Mississauga, Barrio keeps the kitchen and the cafe side by side.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec dark">
+  <div class="wrap">
+    <div class="story-grid rev">
+      <div class="story-vis rv right" style="border-radius:28px 28px 200px 200px;background:linear-gradient(160deg,#7A3B1D,#2A1910)"><div class="in-layer" data-speed="-.1"><div id="v2" style="width:100%;display:grid;place-items:center"></div></div></div>
+      <div class="story-copy">
+        <span class="eyebrow rv">The Tray</span>
+        <h2 class="title-lg" data-lines style="margin-top:20px">Medium or large.<br>Priced up front.</h2>
+        <p class="rv">Every dish comes in two sizes with both prices printed side by side. Pork spring rolls, siomai, turon and kutsinta are a dollar a piece. Order at least 2 to 3 days ahead by phone or email and the tray is ready when you are.</p>
+        <div class="rv" style="margin-top:32px"><a href="menu.html" class="btn solid">See the menu</a></div>
+      </div>
+    </div>
+
+    <div class="values">
+      <div class="value rv"><svg class="ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 24h36c0 10-8 17-18 17S6 34 6 24Z"/><path d="M16 14c0-3 3-3 3-6M24 14c0-3 3-3 3-6M32 14c0-3 3-3 3-6"/></svg><h3>Made to share</h3><p>Trays sized for birthdays, christenings, offices and every reason to fill a room.</p></div>
+      <div class="value rv" style="--d:.1s"><svg class="ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 24 24 6h16v16L22 40Z"/><circle cx="32" cy="14" r="2.5"/></svg><h3>Plainly priced</h3><p>Medium and large prices on every dish. No guessing before you call.</p></div>
+      <div class="value rv" style="--d:.2s"><svg class="ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="10" width="36" height="32" rx="4"/><path d="M6 20h36M16 6v8M32 6v8M17 31l5 5 9-10"/></svg><h3>Ready when you are</h3><p>Give us 2 to 3 days. Order by phone or email and we handle the rest.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="text-align:center">
+  <div class="wrap">
+    <h2 class="title-xl" data-lines>Come hungry.<br>Bring everyone.</h2>
+    <div class="rv" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:44px">
+      <a href="trays.html" class="btn solid">Build your tray</a>
+      <a href="contact.html" class="btn ghost" style="color:var(--ink)">Find us</a>
+    </div>
+  </div>
+</section>
+
+<div data-footer></div>
+<script src="js/menu-data.js"></script>
+<script src="js/site.js"></script>
+<script>
+(function(){
+  var U=BarrioUI;
+  document.getElementById("b1").innerHTML=U.bean("--s:60px;--o:.55;--r:-20deg");
+  document.getElementById("b2").innerHTML=U.bean("--s:34px;--o:.45;--r:30deg;--d:-2s");
+  document.getElementById("v1").innerHTML=U.mark({anim:false}).replace('class="logo-mark','style="--crease:#6B3A1E;width:62%" class="logo-mark');
+  document.getElementById("v2").innerHTML="<svg viewBox='0 0 160 160' style='width:56%;color:#FBF7F1' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><ellipse cx='80' cy='96' rx='64' ry='22'/><path d='M16 96c0 24 28 40 64 40s64-16 64-40'/><path d='M50 72c0-14 14-14 14-28M80 68c0-14 14-14 14-28M110 72c0-14 14-14 14-28'/></svg>";
+})();
+</script>
+</body>
+</html>

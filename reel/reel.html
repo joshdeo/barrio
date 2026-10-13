@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Barrio Reel | 1080 x 1920</title>
+<style>
+@font-face{font-family:"Marcellus";src:url(../fonts/marcellus-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Jost";src:url(../fonts/jost-latin-400-normal.woff2) format("woff2");font-weight:400}
+@font-face{font-family:"Jost";src:url(../fonts/jost-latin-500-normal.woff2) format("woff2");font-weight:500}
+@font-face{font-family:"Jost";src:url(../fonts/jost-latin-600-normal.woff2) format("woff2");font-weight:600}
+:root{--cream:#FBF7F1;--espresso:#1B100A;--espresso2:#2A1910;--copper:#C77A3E;--copper-hi:#E9A263;--bronze:#6B3A1E}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0b0603;height:100%;overflow:hidden}
+body{display:grid;place-items:center;font-family:"Jost",sans-serif}
+#frame{width:1080px;height:1920px;position:relative;transform-origin:center center;overflow:hidden;background:var(--espresso)}
+.scene{position:absolute;inset:0;overflow:hidden}
+.bg-espresso{background:radial-gradient(90% 60% at 50% 42%,#4a2a17 0%,var(--espresso2) 45%,var(--espresso) 85%)}
+.bg-copper{background:linear-gradient(160deg,#E39A5B,#C77A3E 45%,#8C4F27)}
+.bg-cream{background:linear-gradient(180deg,#FBF7F1,#F0E4D3)}
+.abs{position:absolute}
+.center{left:0;right:0;text-align:center}
+.serif{font-family:"Marcellus",serif;font-weight:400;line-height:.95}
+.tag{font-size:34px;letter-spacing:.42em;text-transform:uppercase;font-weight:500}
+.mask{display:block;overflow:hidden;padding:.06em 0 .12em;margin-bottom:-.12em}
+.mask>span{display:block;will-change:transform}
+.wordmark{font-family:"Marcellus",serif;letter-spacing:.14em;line-height:1;background:linear-gradient(180deg,#E9A263,#C77A3E 45%,#6B3A1E);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap;padding-left:.14em}
+.ghostnum{font-family:"Marcellus",serif;font-size:1100px;line-height:1;opacity:.06}
+.pill{display:inline-flex;align-items:center;gap:22px;padding:30px 54px;border-radius:999px;font-size:50px;font-weight:500;letter-spacing:.06em;white-space:nowrap}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.ctrl{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:flex;gap:10px;z-index:9}
+.ctrl button{font:600 13px Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#FBF7F1;background:#3a2216;border:1px solid #C77A3E;border-radius:99px;padding:9px 18px;cursor:pointer}
+body.capture .ctrl{display:none}
+</style>
+</head>
+<body>
+<div id="frame">
+
+  <!-- persistent background beans -->
+  <div id="floats" style="position:absolute;inset:0;z-index:6;pointer-events:none"></div>
+
+  <!-- SCENE 1: logo reveal -->
+  <div class="scene bg-espresso" id="s1">
+    <div class="abs" id="rings1" style="left:540px;top:760px"></div>
+    <div class="abs" id="markWrap" style="left:290px;top:340px;width:500px;height:536px"></div>
+    <div class="abs center" id="wm1" style="top:930px"><div class="wordmark" id="wmText" style="font-size:210px"></div></div>
+    <div class="abs center" id="sub1" style="top:1180px;color:var(--copper);display:flex;justify-content:center;align-items:center;gap:30px">
+      <i style="display:block;height:2px;width:90px;background:currentColor"></i><span class="tag" style="font-size:38px;letter-spacing:.5em">Kitchen &amp; Cafe</span><i style="display:block;height:2px;width:90px;background:currentColor"></i>
+    </div>
+  </div>
+
+  <!-- SCENE 2: party trays headline -->
+  <div class="scene bg-copper" id="s2" style="color:var(--espresso)">
+    <div class="abs ghostnum" id="g2" style="left:50%;top:260px;margin-left:-300px;color:var(--espresso);opacity:.1;font-size:1200px">B</div>
+    <div class="abs center" style="top:420px">
+      <div class="serif" style="font-size:270px"><span class="mask"><span id="l1">PARTY</span></span><span class="mask"><span id="l2">TRAYS</span></span></div>
+      <div class="tag" style="margin-top:40px"><span class="mask"><span id="l3" style="font-size:44px">For the whole</span></span></div>
+      <div class="serif" style="font-size:230px;color:var(--cream);margin-top:6px;text-shadow:0 8px 0 rgba(27,16,10,.18)"><span class="mask"><span id="l4">BARRIO.</span></span></div>
+    </div>
+  </div>
+
+  <!-- SCENE 3: dish beats (built by script) -->
+  <div id="beats"></div>
+
+  <!-- SCENE 4: notice + CTA -->
+  <div class="scene bg-cream" id="s4" style="color:var(--espresso)">
+    <div class="abs center" style="top:330px">
+      <div class="tag" style="color:var(--copper);font-size:30px;letter-spacing:.3em"><span class="mask"><span id="n0">Good food takes a little notice</span></span></div>
+      <div class="serif" style="font-size:190px;margin-top:44px"><span class="mask"><span id="n1">ORDER</span></span><span class="mask"><span id="n2" style="color:var(--copper)">2 TO 3</span></span><span class="mask"><span id="n3">DAYS</span></span><span class="mask"><span id="n4">AHEAD.</span></span></div>
+    </div>
+    <div class="abs center" style="top:1300px;display:flex;flex-direction:column;align-items:center;gap:26px">
+      <div id="p1" class="pill" style="background:var(--espresso);color:var(--cream)">CALL&nbsp;&nbsp;905 592 0079</div>
+      <div id="p2" class="pill" style="border:3px solid var(--espresso);font-size:40px;padding:26px 46px">EMAIL&nbsp;&nbsp;info@barriokitchencafe.com</div>
+    </div>
+  </div>
+
+  <!-- SCENE 5: closing lockup -->
+  <div class="scene bg-espresso" id="s5">
+    <div class="abs" id="rings5" style="left:540px;top:700px"></div>
+    <div class="abs" id="markWrap5" style="left:340px;top:330px;width:400px;height:430px"></div>
+    <div class="abs center" style="top:800px"><div class="wordmark" id="wm5" style="font-size:190px">BARRIO</div></div>
+    <div class="abs center" id="sub5" style="top:1030px;color:var(--copper);display:flex;justify-content:center;align-items:center;gap:26px"><i style="display:block;height:2px;width:70px;background:currentColor"></i><span class="tag" style="font-size:34px">Kitchen &amp; Cafe</span><i style="display:block;height:2px;width:70px;background:currentColor"></i></div>
+    <div class="abs center" id="end1" style="top:1180px;color:var(--cream);font-size:44px;letter-spacing:.16em;font-weight:500">99 DUNDAS ST E, MISSISSAUGA</div>
+    <div class="abs center" id="end2" style="top:1262px;color:var(--copper-hi);font-size:50px;letter-spacing:.06em;font-weight:500">@barriokitchencafe</div>
+    <div class="abs center" id="end3" style="top:1340px;color:rgba(251,247,241,.7);font-size:36px;letter-spacing:.14em">BARRIOKITCHENCAFE.COM</div>
+  </div>
+
+  <!-- transition wipes -->
+  <div class="abs" id="wipe" style="inset:0;background:var(--espresso);transform:translateY(100%);z-index:30"></div>
+  <div class="grain"></div>
+</div>
+
+<div class="ctrl"><button id="pp">Pause</button><button id="rs">Restart</button></div>
+
+<script>
+(function(){
+  var DUR=15, q=new URLSearchParams(location.search), cap=q.has("capture");
+  if(cap)document.body.classList.add("capture");
+  var $=function(i){return document.getElementById(i)};
+  var clamp=function(v,a,b){return Math.max(a,Math.min(b,v))};
+  var P=function(t,a,d){return clamp((t-a)/d,0,1)};
+  var eo=function(x){return 1-Math.pow(1-x,3)};
+  var eo5=function(x){return 1-Math.pow(1-x,5)};
+  var eio=function(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+  var back=function(x){var c1=1.9,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+
+  /* logo mark */
+  var uid=0;
+  function mark(){
+    var id="m"+(++uid),rays="";
+    [-100,-80,-60,-40,-20,20,40,60,80,100].forEach(function(a,i){
+      var r1=80,r2=i%2?100:106,rad=(a-90)*Math.PI/180;
+      rays+='<line class="ray" x1="'+(100+r1*Math.cos(rad)).toFixed(1)+'" y1="'+(125+r1*Math.sin(rad)).toFixed(1)+'" x2="'+(100+r2*Math.cos(rad)).toFixed(1)+'" y2="'+(125+r2*Math.sin(rad)).toFixed(1)+'" stroke="url(#'+id+'r)" stroke-width="3.2" stroke-linecap="round" style="transform-origin:100px 125px"/>';
+    });
+    return '<svg viewBox="0 0 200 215" width="100%" height="100%" style="overflow:visible"><defs>'+
+    '<linearGradient id="'+id+'l" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9A263"/><stop offset="1" stop-color="#A9582A"/></linearGradient>'+
+    '<linearGradient id="'+id+'d" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8A4A26"/><stop offset="1" stop-color="#4B2714"/></linearGradient>'+
+    '<linearGradient id="'+id+'r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9A263"/><stop offset="1" stop-color="#B8693A"/></linearGradient>'+
+    '<linearGradient id="'+id+'s" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".4"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'+
+    '<clipPath id="'+id+'c"><ellipse cx="100" cy="125" rx="40" ry="62"/></clipPath>'+
+    '<mask id="'+id+'m"><rect width="200" height="215" fill="#fff"/><rect x="93.2" y="101" width="2.6" height="22" rx="1.3" fill="#000"/><rect x="98.7" y="101" width="2.6" height="22" rx="1.3" fill="#000"/><rect x="104.2" y="101" width="2.6" height="22" rx="1.3" fill="#000"/></mask></defs>'+rays+
+    '<g class="bean" style="transform-origin:100px 125px"><ellipse cx="100" cy="125" rx="40" ry="62" fill="url(#'+id+'d)"/>'+
+    '<path d="M100 63 C128 95 72 155 100 187 C77.9 187 60 159.2 60 125 C60 90.8 77.9 63 100 63Z" fill="url(#'+id+'l)"/>'+
+    '<path d="M100 63 C128 95 72 155 100 187" fill="none" stroke="#2A1910" stroke-width="2.4" stroke-linecap="round" opacity=".85"/>'+
+    '<g clip-path="url(#'+id+'c)"><rect class="shine" x="40" y="55" width="46" height="140" fill="url(#'+id+'s)" transform="skewX(-14)"/></g></g>'+
+    '<g class="fork" mask="url(#'+id+'m)" fill="#FBF7F1"><rect x="96.8" y="66" width="6.4" height="28" rx="3.2"/><path d="M88.5 92 Q88.5 84 95 84 H105 Q111.5 84 111.5 92 V105 Q111.5 117 100 122 Q88.5 117 88.5 105Z"/></g></svg>';
+  }
+  $("markWrap").innerHTML=mark();$("markWrap5").innerHTML=mark();
+
+  /* wordmark letters */
+  var wmText=$("wmText"),letters=[];
+  "BARRIO".split("").forEach(function(c){var s=document.createElement("span");s.style.cssText="display:inline-block;background:linear-gradient(180deg,#E9A263,#C77A3E 45%,#6B3A1E);-webkit-background-clip:text;background-clip:text;color:transparent";s.textContent=c;wmText.appendChild(s);letters.push(s)});
+
+  /* rings */
+  function rings(el,n){var h="";for(var i=0;i<n;i++)h+='<i style="position:absolute;left:0;top:0;width:900px;height:900px;border:3px solid rgba(199,122,62,.35);border-radius:50%;margin:-450px 0 0 -450px"></i>';el.innerHTML=h;return [].slice.call(el.children)}
+  var r1=rings($("rings1"),3),r5=rings($("rings5"),3);
+  function ringAnim(rs,t,a){rs.forEach(function(r,i){var u=((t-a-i*.9)%2.7+2.7)%2.7/2.7,on=t>=a;r.style.transform="scale("+(0.2+u*1.5).toFixed(3)+")";r.style.opacity=on?(1-u)*.9:0})}
+
+  /* floating beans */
+  var fl=$("floats"),beans=[],defs=[[110,330,70,-20],[900,520,44,30],[160,1330,52,10],[880,1480,90,-40],[520,210,34,50],[940,1050,40,20],[70,900,56,-30]];
+  defs.forEach(function(d,i){var el=document.createElement("div");el.className="abs";el.style.cssText="left:"+d[0]+"px;top:"+d[1]+"px;width:"+d[2]+"px;height:"+(d[2]*1.4)+"px;opacity:.5";el.innerHTML='<svg viewBox="0 0 60 84" width="100%" height="100%"><defs><linearGradient id="fb'+i+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9A263"/><stop offset="1" stop-color="#6B3A1E"/></linearGradient></defs><ellipse cx="30" cy="42" rx="26" ry="38" fill="url(#fb'+i+')"/><path d="M30 5 C48 28 12 56 30 79" fill="none" stroke="#1B100A" stroke-width="3" stroke-linecap="round" opacity=".6"/></svg>';fl.appendChild(el);beans.push({el:el,d:d})});
+
+  /* beats */
+  var BEATS=[
+    {tag:"Noodles",a:"PANCIT",b:"BIHON",m:60,l:90,bg:"bg-espresso",fg:"#FBF7F1",hi:"#E9A263"},
+    {tag:"Pork",a:"LECHON",b:"KAWALI",m:110,l:195,bg:"bg-cream",fg:"#1B100A",hi:"#C77A3E"},
+    {tag:"Chicken",a:"CHICKEN",b:"ADOBO",m:70,l:140,bg:"bg-copper",fg:"#1B100A",hi:"#FBF7F1"},
+    {tag:"Beef",a:"BEEF",b:"CALDERETA",m:95,l:190,bg:"bg-espresso",fg:"#FBF7F1",hi:"#E9A263"},
+    {tag:"Pork",a:"SPRING",b:"ROLLS",each:"$1",unit:"each",bg:"bg-cream",fg:"#1B100A",hi:"#C77A3E"},
+    {tag:"Dessert",a:"TURON",b:"",each:"$1",unit:"each, 50 piece minimum",bg:"bg-copper",fg:"#1B100A",hi:"#FBF7F1"}
+  ];
+  var bw=$("beats");
+  BEATS.forEach(function(b,i){
+    var d=document.createElement("div");d.className="scene "+b.bg;d.style.color=b.fg;
+    var price=b.each?
+      '<div class="serif" style="font-size:300px;color:'+b.hi+'">'+b.each+'</div><div class="tag" style="margin-top:6px;font-size:36px">'+b.unit+'</div>':
+      '<div style="display:flex;justify-content:center;gap:90px"><div><div class="tag" style="font-size:30px">Medium</div><div class="serif" style="font-size:210px;color:'+b.hi+'">$'+b.m+'</div></div><div><div class="tag" style="font-size:30px">Large</div><div class="serif" style="font-size:210px;color:'+b.hi+'">$'+b.l+'</div></div></div>';
+    d.innerHTML='<div class="abs ghostnum" style="left:-80px;top:180px;color:'+b.fg+'">0'+(i+1)+'</div>'+
+      '<div class="abs center" style="top:360px"><div class="tag" style="color:'+b.hi+'"><span class="mask"><span class="bt">'+b.tag+'</span></span></div>'+
+      '<div class="serif" style="font-size:'+(b.b.length>7?190:230)+'px;margin-top:44px"><span class="mask"><span class="ba">'+b.a+'</span></span>'+(b.b?'<span class="mask"><span class="bb" style="color:'+b.hi+'">'+b.b+'</span></span>':'')+'</div></div>'+
+      '<div class="abs center bp" style="top:'+(b.b?1010:900)+'px">'+price+'</div>';
+    bw.appendChild(d);b.el=d;
+    b.t=[].slice.call(d.querySelectorAll(".bt")),b.na=d.querySelector(".ba"),b.nb=d.querySelector(".bb"),b.p=d.querySelector(".bp");
+  });
+
+  /* timeline */
+  var T={s2:2.95,s3:5.9,beat:.85,s4:11.0,s5:13.05};
+  function show(el,v){el.style.visibility=v?"visible":"hidden"}
+  function rise(el,u){el.style.transform="translateY("+((1-eo5(u))*115).toFixed(2)+"%)"}
+  function wipe(el,u){ // reveal from bottom
+    el.style.clipPath="inset("+((1-eio(u))*100).toFixed(2)+"% 0 0 0)"}
+
+  function render(t){
+    t=clamp(t,0,DUR-.0001);
+    /* floating beans drift */
+    beans.forEach(function(b,i){var y=Math.sin(t*1.3+i*1.7)*26,r=b.d[3]+Math.sin(t*.9+i)*18;b.el.style.transform="translateY("+y.toFixed(1)+"px) rotate("+r.toFixed(1)+"deg)"});
+
+    $("floats").style.opacity=(t<T.s3-.1)?1-P(t,T.s3-.4,.3):P(t,T.s5+.1,.4);
+    /* S1 */
+    var s1=$("s1");show(s1,t<T.s2+.5);
+    var mk=$("markWrap"),rays=mk.querySelectorAll(".ray"),bean=mk.querySelector(".bean"),fork=mk.querySelector(".fork"),shine=mk.querySelector(".shine");
+    rays.forEach(function(r,i){var u=P(t,.25+i*.06,.7),s=.55+.45*back(u);r.style.opacity=eo(u);var pulse=1+Math.sin(t*3.2+i*.7)*.03*P(t,1.4,.4);r.style.transform="scale("+(s*pulse).toFixed(3)+")"});
+    var bu=P(t,.1,.95);bean.style.opacity=eo(P(t,.1,.4));bean.style.transform="scale("+(.35+.65*back(bu)).toFixed(3)+") rotate("+((1-eo5(bu))*-60).toFixed(1)+"deg)";
+    var fu=P(t,.55,.8);fork.style.opacity=eo(P(t,.55,.25));fork.style.transform="translateY("+((1-eo5(fu))*-70).toFixed(1)+"px)";
+    shine.setAttribute("transform","skewX(-14) translate("+(-100+P(t,1.5,1.2)*260).toFixed(1)+" 0)");
+    letters.forEach(function(l,i){var u=P(t,1.05+i*.07,.55);l.style.opacity=eo(P(t,1.05+i*.07,.2));l.style.transform="translateY("+((1-eo5(u))*70).toFixed(1)+"px) rotate("+((1-eo5(u))*8).toFixed(1)+"deg)"});
+    var su=P(t,1.85,.6);$("sub1").style.opacity=eo(su);$("sub1").style.transform="scale("+(.92+.08*eo(su)).toFixed(3)+")";
+    ringAnim(r1,t,.6);
+    var out=P(t,2.45,.5);mk.style.transform="scale("+(1+eio(out)*.25).toFixed(3)+")";
+    $("wm1").style.opacity=1-eio(P(t,2.55,.35));$("sub1").style.opacity=eo(su)*(1-eio(P(t,2.55,.35)));mk.style.opacity=1-eio(P(t,2.6,.3));
+
+    /* S2 */
+    var s2=$("s2");show(s2,t>=T.s2-.05&&t<T.s3+.4);
+    wipe(s2,P(t,T.s2,.5));
+    var b=T.s2+.35;
+    rise($("l1"),P(t,b,.7));rise($("l2"),P(t,b+.14,.7));rise($("l3"),P(t,b+.38,.6));rise($("l4"),P(t,b+.55,.7));
+    $("g2").style.transform="translateY("+((t-T.s2)*-22).toFixed(1)+"px) rotate("+((t-T.s2)*3).toFixed(2)+"deg)";
+
+    /* S3 beats */
+    BEATS.forEach(function(be,i){
+      var st=T.s3+i*T.beat,u=t-st,vis=t>=st-.02&&t<T.s4+.4;
+      show(be.el,vis);if(!vis)return;
+      wipe(be.el,P(t,st,.3));
+      be.t.forEach(function(e){rise(e,P(u,.18,.45))});
+      rise(be.na,P(u,.22,.5));if(be.nb)rise(be.nb,P(u,.32,.5));
+      var pu=P(u,.4,.4);be.p.style.opacity=eo(P(u,.4,.2));be.p.style.transform="scale("+(.7+.3*back(pu)).toFixed(3)+")";
+    });
+
+    /* S4 */
+    var s4=$("s4");show(s4,t>=T.s4-.05&&t<T.s5+.4);
+    wipe(s4,P(t,T.s4,.35));
+    var c=T.s4+.3;
+    ["n0","n1","n2","n3","n4"].forEach(function(id,i){rise($(id),P(t,c+i*.1,.55))});
+    var pu1=P(t,c+.7,.5),pu2=P(t,c+.85,.5);
+    $("p1").style.opacity=eo(P(t,c+.7,.25));$("p1").style.transform="scale("+((.7+.3*back(pu1))*(1+Math.sin(t*6)*.012*P(t,c+1.3,.2))).toFixed(3)+")";
+    $("p2").style.opacity=eo(P(t,c+.85,.25));$("p2").style.transform="scale("+(.7+.3*back(pu2)).toFixed(3)+")";
+
+    /* S5 */
+    var s5=$("s5");show(s5,t>=T.s5-.05);
+    wipe(s5,P(t,T.s5,.35));
+    var m5=$("markWrap5"),e0=T.s5+.25;
+    var rr=m5.querySelectorAll(".ray");rr.forEach(function(r,i){var u=P(t,e0+i*.03,.5);r.style.opacity=eo(u);r.style.transform="scale("+(.6+.4*back(u)).toFixed(3)+")"});
+    var bb=m5.querySelector(".bean"),ff=m5.querySelector(".fork");
+    bb.style.transform="scale("+(.5+.5*back(P(t,e0,.6))).toFixed(3)+")";ff.style.transform="translateY("+((1-eo5(P(t,e0+.2,.5)))*-50).toFixed(1)+"px)";
+    m5.querySelector(".shine").setAttribute("transform","skewX(-14) translate("+(-100+P(t,e0+.8,.9)*260).toFixed(1)+" 0)");
+    $("wm5").style.opacity=eo(P(t,e0+.25,.3));$("wm5").style.transform="translateY("+((1-eo5(P(t,e0+.25,.6)))*50).toFixed(1)+"px)";
+    $("sub5").style.opacity=eo(P(t,e0+.55,.4));
+    ["end1","end2","end3"].forEach(function(id,i){var u=P(t,e0+.7+i*.1,.45);$(id).style.opacity=eo(u);$(id).style.transform="translateY("+((1-eo5(u))*30).toFixed(1)+"px)"});
+    ringAnim(r5,t,e0);
+  }
+  window.renderAt=render;window.DURATION=DUR;
+
+  /* playback */
+  function fit(){var s=Math.min(innerWidth/1080,(innerHeight-40)/1920);$("frame").style.transform="scale("+s+")";$("frame").style.margin=((1920*s-1920)/2)+"px "+((1080*s-1080)/2)+"px"}
+  if(!cap){fit();addEventListener("resize",fit);
+    var t0=performance.now(),paused=false,off=0;
+    function loop(now){if(!paused)render(((now-t0)/1000+off)%DUR);requestAnimationFrame(loop)}
+    requestAnimationFrame(loop);
+    $("pp").onclick=function(){paused=!paused;this.textContent=paused?"Play":"Pause";if(!paused){t0=performance.now()-0}};
+    $("rs").onclick=function(){t0=performance.now();paused=false;$("pp").textContent="Pause"};
+  }else{render(0)}
+})();
+</script>
+</body>
+</html>
